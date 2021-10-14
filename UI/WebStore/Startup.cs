@@ -19,6 +19,7 @@ using WebStore.Interfaces.TestAPI;
 using WebStore.WebAPI.Clients.Values;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Products;
+using WebStore.WebAPI.Clients.Orders;
 
 namespace WebStore
 {
@@ -80,7 +81,8 @@ namespace WebStore
             services.AddHttpClient("WebStoreWebAPI", client => client.BaseAddress = new(Configuration["WebAPI"]))
                .AddTypedClient<IValuesService, ValuesClient>()
                .AddTypedClient<IEmployeeData, EmployeesClient>()
-               .AddTypedClient<IProductData, ProductsClient>();
+               .AddTypedClient<IProductData, ProductsClient>()
+               .AddTypedClient<IOrderService, OrdersClient>();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
