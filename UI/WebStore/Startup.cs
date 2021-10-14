@@ -17,6 +17,9 @@ using WebStore.Services.Services.InCookies;
 using WebStore.Services.Data;
 using WebStore.Interfaces.TestAPI;
 using WebStore.WebAPI.Clients.Values;
+using WebStore.WebAPI.Clients.Employees;
+using WebStore.WebAPI.Clients.Products;
+using WebStore.WebAPI.Clients.Orders;
 
 namespace WebStore
 {
@@ -70,12 +73,16 @@ namespace WebStore
             });
 
             services.AddTransient<WebStoreDbInitializer>();
-            services.AddSingleton<IEmployeeData, InMemoryEmployeesData>();
-            services.AddScoped<IProductData, SqlProductData>();
+            //services.AddSingleton<IEmployeeData, InMemoryEmployeesData>();
+            //services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
 
-            services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(Configuration["WebAPI"]));
+            services.AddHttpClient("WebStoreWebAPI", client => client.BaseAddress = new(Configuration["WebAPI"]))
+               .AddTypedClient<IValuesService, ValuesClient>()
+               .AddTypedClient<IEmployeeData, EmployeesClient>()
+               .AddTypedClient<IProductData, ProductsClient>()
+               .AddTypedClient<IOrderService, OrdersClient>();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();

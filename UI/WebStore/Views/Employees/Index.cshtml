@@ -42,7 +42,8 @@
                             <a asp-controller="Employees" asp-action="Details" asp-route-id="@employee.Id">Подробнее</a>
                             @if (User.IsInRole(Role.Administrators))
                             {
-                        @:|<a asp-controller="Employees" asp-action="Edit" asp-route-id="@employee.Id">edit</a>|
+                        @:|
+                        <a asp-controller="Employees" asp-action="Edit" asp-route-id="@employee.Id">edit</a>@:|
                         <a asp-controller="Employees" asp-action="Delete" asp-route-id="@employee.Id" class="text-danger">
                             del
                         </a>
