@@ -32,19 +32,10 @@ namespace WebStore
 
             services.AddIdentity<User, Role>()
               //.AddEntityFrameworkStores<WebStoreDB>()
+              .AddIdentityWebStoreWebAPIClients()
               .AddDefaultTokenProviders();
 
-            services.AddHttpClient("WebStoreWebAPIIdentity", client => client.BaseAddress = new(Configuration["WebAPI"]))
-               .AddTypedClient<IUserStore<User>, UsersClient>()
-               .AddTypedClient<IUserRoleStore<User>, UsersClient>()
-               .AddTypedClient<IUserPasswordStore<User>, UsersClient>()
-               .AddTypedClient<IUserEmailStore<User>, UsersClient>()
-               .AddTypedClient<IUserPhoneNumberStore<User>, UsersClient>()
-               .AddTypedClient<IUserTwoFactorStore<User>, UsersClient>()
-               .AddTypedClient<IUserClaimStore<User>, UsersClient>()
-               .AddTypedClient<IUserLoginStore<User>, UsersClient>()
-               .AddTypedClient<IRoleStore<Role>, RolesClient>()
-                ;
+            //services.AddIdentityWebStoreWebAPIClients();
 
             services.Configure<IdentityOptions>(opt =>
             {
