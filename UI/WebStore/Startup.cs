@@ -20,24 +20,22 @@ using WebStore.WebAPI.Clients.Values;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Orders;
+using WebStore.WebAPI.Clients.Identity;
 
 namespace WebStore
 {
-    public class Startup
+    public record Startup(IConfiguration Configuration)
     {
-        public IConfiguration Configuration { get; set; }
-        public Startup(IConfiguration Configuration)
-        {
-            this.Configuration = Configuration;
-        }
+       
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreDB>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
-            services.AddIdentity<User, Role>( /*opt => { opt. }*/)
-              .AddEntityFrameworkStores<WebStoreDB>()
+            services.AddIdentity<User, Role>()
+              //.AddEntityFrameworkStores<WebStoreDB>()
+              .AddIdentityWebStoreWebAPIClients()
               .AddDefaultTokenProviders();
+
+            //services.AddIdentityWebStoreWebAPIClients();
 
             services.Configure<IdentityOptions>(opt =>
             {
@@ -72,11 +70,10 @@ namespace WebStore
                 opt.SlidingExpiration = true;
             });
 
-            services.AddTransient<WebStoreDbInitializer>();
             //services.AddSingleton<IEmployeeData, InMemoryEmployeesData>();
             //services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
+            //services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddHttpClient("WebStoreWebAPI", client => client.BaseAddress = new(Configuration["WebAPI"]))
                .AddTypedClient<IValuesService, ValuesClient>()
