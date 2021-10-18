@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Interfaces;
 
 namespace WebStore.WebAPI.Controllers.Identity
 {
-    [Route("api/[controller]")]
+    [Route(WebAPIAddresses.Identity.Users)]
     [ApiController]
     public class UsersApiController : ControllerBase
     {
