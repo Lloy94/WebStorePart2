@@ -8,4 +8,3 @@ namespace WebStore.Interfaces.Services.Identity
 
     }
 }
-}
