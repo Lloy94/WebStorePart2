@@ -1,15 +1,15 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace WebStore.WebAPI.Clients.Base
 {
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         protected HttpClient Http { get; }
 
         protected string Address { get; }
-
         protected BaseClient(HttpClient Client, string Address)
         {
             Http = Client;
@@ -25,26 +25,44 @@ namespace WebStore.WebAPI.Clients.Base
                .ReadFromJsonAsync<T>()
                .ConfigureAwait(false);
         }
-
         protected HttpResponseMessage Post<T>(string url, T item) => PostAsync(url, item).Result;
+
+  
         protected async Task<HttpResponseMessage> PostAsync<T>(string url, T item)
         {
             var response = await Http.PostAsJsonAsync(url, item).ConfigureAwait(false);
             return response.EnsureSuccessStatusCode();
         }
-
         protected HttpResponseMessage Put<T>(string url, T item) => PutAsync(url, item).Result;
         protected async Task<HttpResponseMessage> PutAsync<T>(string url, T item)
         {
             var response = await Http.PutAsJsonAsync(url, item).ConfigureAwait(false);
             return response.EnsureSuccessStatusCode();
         }
-
         protected HttpResponseMessage Delete(string url) => DeleteAsync(url).Result;
         protected async Task<HttpResponseMessage> DeleteAsync(string url)
         {
             var response = await Http.DeleteAsync(url).ConfigureAwait(false);
             return response;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private bool _Disposed;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_Disposed) return;
+            _Disposed = true;
+
+            if (disposing)
+            {
+
+            }
+
+
         }
     }
 }
