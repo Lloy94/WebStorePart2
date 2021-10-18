@@ -29,8 +29,6 @@ namespace WebStore
        
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreDB>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
             services.AddIdentity<User, Role>()
               //.AddEntityFrameworkStores<WebStoreDB>()
@@ -81,7 +79,6 @@ namespace WebStore
                 opt.SlidingExpiration = true;
             });
 
-            services.AddTransient<WebStoreDbInitializer>();
             //services.AddSingleton<IEmployeeData, InMemoryEmployeesData>();
             //services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();

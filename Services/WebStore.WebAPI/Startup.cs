@@ -10,6 +10,7 @@ using System;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InMemory;
 using WebStore.Services.Services.InSQL;
@@ -22,6 +23,8 @@ namespace WebStore.WebAPI
         {
             services.AddDbContext<WebStoreDB>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+
+            services.AddScoped<WebStoreDbInitializer>();
 
             services.AddIdentity<User, Role>( /*opt => { opt. }*/)
              .AddEntityFrameworkStores<WebStoreDB>()
