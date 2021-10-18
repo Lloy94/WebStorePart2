@@ -23,19 +23,15 @@ using WebStore.WebAPI.Clients.Orders;
 
 namespace WebStore
 {
-    public class Startup
+    public record Startup(IConfiguration Configuration)
     {
-        public IConfiguration Configuration { get; set; }
-        public Startup(IConfiguration Configuration)
-        {
-            this.Configuration = Configuration;
-        }
+       
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<WebStoreDB>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
-            services.AddIdentity<User, Role>( /*opt => { opt. }*/)
+            services.AddIdentity<User, Role>()
               .AddEntityFrameworkStores<WebStoreDB>()
               .AddDefaultTokenProviders();
 
