@@ -21,6 +21,8 @@ using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Identity;
+using Microsoft.Extensions.Logging;
+using WebStore.Logger;
 
 namespace WebStore
 {
@@ -85,8 +87,10 @@ namespace WebStore
                 .AddRazorRuntimeCompilation();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
         {
+            log.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\WebStore.Domain\WebStore.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\WebStore.Logger\WebStore.Logger.csproj" />
     <ProjectReference Include="..\..\Data\WebStore.DAL\WebStore.DAL.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Interfaces\WebStore.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Services\WebStore.Services.csproj" />
