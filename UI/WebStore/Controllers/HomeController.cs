@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.Controllers
@@ -11,6 +12,8 @@ namespace WebStore.Controllers
         {
             return View();
         }
+
+        public IActionResult Exception(string Message) => throw new InvalidOperationException(Message ?? "Ошибка в контроллере!");
 
         public IActionResult Status(string id)
         {

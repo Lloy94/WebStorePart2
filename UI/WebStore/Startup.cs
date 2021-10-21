@@ -23,6 +23,7 @@ using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Identity;
 using Microsoft.Extensions.Logging;
 using WebStore.Logger;
+using WebStore.Infrastructure.Middleware;
 
 namespace WebStore
 {
@@ -106,6 +107,8 @@ namespace WebStore
             app.UseAuthorization();
 
             app.UseWelcomePage("/welcome");
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
