@@ -20,6 +20,7 @@ namespace WebStore
         {
             var host_builder = CreateHostBuilder(args);
             var host = host_builder.Build();
+
             await host.RunAsync();
         }
 
