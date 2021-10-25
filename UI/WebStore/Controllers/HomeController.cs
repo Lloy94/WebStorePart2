@@ -17,6 +17,9 @@ namespace WebStore.Controllers
 
         public IActionResult Status(string id)
         {
+            if (id is null)
+                throw new ArgumentNullException(nameof(id));
+
             switch (id)
             {
                 default: return Content($"Status --- {id}");
