@@ -17,7 +17,11 @@ namespace WebStore.WebAPI.Clients.Base
             this.Address = Address;
         }
 
-        protected T Get<T>(string url) => GetAsync<T>(url).Result;
+        protected T Get<T>(string url)
+        {
+            return GetAsync<T>(url).Result;
+        }
+
         protected async Task<T> GetAsync<T>(string url, CancellationToken Cancel = default)
         {
             var response = await Http.GetAsync(url, Cancel).ConfigureAwait(false);
