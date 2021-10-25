@@ -35,7 +35,7 @@ namespace WebStore.Tests.Controllers
         {
 
             const string id = "404";
-            const string expected_view_name = "Error404";
+            const string expected_view_name = "NotFound";
             var controller = new HomeController();
 
 
