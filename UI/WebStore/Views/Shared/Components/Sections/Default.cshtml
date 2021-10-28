@@ -23,7 +23,7 @@
                             @foreach (var child_section in parent_section.ChildSections)
                             {
                             <li @(child_section.Id == Model.SectionId ? "class=active" : null)>
-                                <a asp-controller="Catalog"
+                                <a asp-controller="Shop"
                                    asp-action="Index"
                                    asp-route-SectionId="@child_section.Id">
                                     @child_section.Name
