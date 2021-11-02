@@ -15,6 +15,8 @@ namespace WebStore.TagHelpers
 
         private const string IgnoreAction = "ws-ignore-action";
 
+        private const string IgnoreController = "ws-ignore-controller";
+
         [HtmlAttributeName("ws-is-active-route-active")]
         public string ActiveCssClass { get; set; } = "active";
 
@@ -39,12 +41,14 @@ namespace WebStore.TagHelpers
         {
             var is_ignore_action = output.Attributes.RemoveAll(IgnoreAction);
 
-            if (IsActive(is_ignore_action))
+            var is_ignore_controller = output.Attributes.RemoveAll(IgnoreController);
+
+            if (IsActive(is_ignore_action, is_ignore_controller))
                 MakeActive(output);
 
             output.Attributes.RemoveAll(AttributeName);
         }
-        private bool IsActive(bool IgnoreAction)
+        private bool IsActive(bool IgnoreAction, bool IgnoreController)
         {
             var route_values = ViewContext.RouteData.Values;
 
@@ -56,7 +60,7 @@ namespace WebStore.TagHelpers
             if (!IgnoreAction && Action is { Length: > 0 } action && !string.Equals(action, route_action))
                 return false;
 
-            if (Controller is { Length: > 0 } controller && !string.Equals(controller, route_controller))
+            if (!IgnoreController && Controller is { Length: > 0 } controller && !string.Equals(controller, route_controller))
                 return false;
 
             foreach (var (key, value) in RouteValues)
