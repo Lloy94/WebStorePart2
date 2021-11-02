@@ -25,6 +25,9 @@ using Microsoft.Extensions.Logging;
 using WebStore.Logger;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services.Services;
+using Polly;
+using System.Net.Http;
+using Polly.Extensions.Http;
 
 namespace WebStore
 {
@@ -81,7 +84,25 @@ namespace WebStore
                .AddTypedClient<IValuesService, ValuesClient>()
                .AddTypedClient<IEmployeeData, EmployeesClient>()
                .AddTypedClient<IProductData, ProductsClient>()
-               .AddTypedClient<IOrderService, OrdersClient>();
+               .AddTypedClient<IOrderService, OrdersClient>()
+               .SetHandlerLifetime(TimeSpan.FromMinutes(5))     
+               .AddPolicyHandler(GetRetryPolicy())              
+               .AddPolicyHandler(GetCircuitBreakerPolicy());    
+
+            static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy(int MaxRetryCount = 5, int MaxJitterTime = 1000)
+            {
+                var jitter = new Random();
+                return HttpPolicyExtensions
+                   .HandleTransientHttpError()
+                   .WaitAndRetryAsync(MaxRetryCount, RetryAttempt =>
+                        TimeSpan.FromSeconds(Math.Pow(2, RetryAttempt)) +
+                        TimeSpan.FromMilliseconds(jitter.Next(0, MaxJitterTime)));
+            }
+
+            static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() =>
+                HttpPolicyExtensions
+                   .HandleTransientHttpError()
+                   .CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 5, TimeSpan.FromSeconds(30));
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
