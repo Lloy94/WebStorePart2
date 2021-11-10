@@ -189,7 +189,7 @@ namespace WebStore.Services.Data
                 _Logger.LogInformation("Инициализация БД с информацией о сотрудниках не требуется");
                 return;
             }
-           
+
             await using (await _db.Database.BeginTransactionAsync())
             {
                 _db.Employees.AddRange(TestData.Employees);

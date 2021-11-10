@@ -12,12 +12,10 @@ namespace WebStore.Services.Services.InSQL
     public class SqlEmployeeData : IEmployeeData
     {
         private readonly WebStoreDB _db;
-        private int _CurrentMaxId;
 
         public SqlEmployeeData(WebStoreDB db) 
         { 
             _db = db;
-            _CurrentMaxId = _db.Employees.Last().Id;
         }
 
         public int Add(Employee employee)
@@ -26,7 +24,6 @@ namespace WebStore.Services.Services.InSQL
 
             if (_db.Employees.Contains(employee)) return employee.Id;
 
-            employee.Id = ++_CurrentMaxId;
             _db.Employees.Add(employee);
             _db.SaveChanges();
 
