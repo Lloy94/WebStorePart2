@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,16 +51,16 @@ namespace WebStore.Services.Services.InSQL
 
         public  Employee GetById(int id)
         {
-           return _db.Employees.Find(id);
+           return _db.Employees.SingleOrDefault(e => e.Id == id);
         }
 
         public void Update(Employee employee)
         {
             if (employee is null) throw new ArgumentNullException(nameof(employee));
 
-            if (_db.Employees.Contains(employee)) return;
-
             var db_employee = GetById(employee.Id);
+
+            if (db_employee == employee) return;
 
             if (db_employee is null) return;
 
@@ -68,6 +69,7 @@ namespace WebStore.Services.Services.InSQL
             db_employee.Patronymic = employee.Patronymic;
             db_employee.Age = employee.Age;
             db_employee.Info = employee.Info;
+ 
             _db.SaveChanges();
         }
     }
