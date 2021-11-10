@@ -38,6 +38,8 @@ namespace WebStore.Services.Services.InSQL
 
             _db.Employees.Remove(db_employee);
 
+            _db.SaveChanges();
+
             return true;
         }
 
@@ -66,7 +68,6 @@ namespace WebStore.Services.Services.InSQL
             db_employee.Patronymic = employee.Patronymic;
             db_employee.Age = employee.Age;
             db_employee.Info = employee.Info;
-
             _db.SaveChanges();
         }
     }

@@ -60,7 +60,7 @@ namespace WebStore.Controllers
 
         [HttpPost]
         [Authorize(Roles = Role.Administrators)]
-        public IActionResult Edit(EmployeeViewModel model)
+        public IActionResult Edit(Employee model)
         {
             if (!ModelState.IsValid) return View(model);
 
