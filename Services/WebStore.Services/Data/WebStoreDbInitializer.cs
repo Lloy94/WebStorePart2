@@ -63,6 +63,16 @@ namespace WebStore.Services.Data
                 _Logger.LogError(e, "Ошибка инициализации системы Identity");
                 throw;
             }
+
+            try
+            {
+                await InitializeEmployeeAsync();
+            }
+            catch (Exception e)
+            {
+                _Logger.LogError(e, "Ошибка инициализации каталога сотрудников");
+                throw;
+            }
         }
 
         private async Task InitializeProductsAsync()
@@ -168,6 +178,26 @@ namespace WebStore.Services.Data
 
                 _Logger.LogInformation("Данные системы Identity успешно добавлены в БД за {0}мс", timer.Elapsed.TotalMilliseconds);
             }
+        }
+
+        private async Task InitializeEmployeeAsync()
+        {
+            var timer = Stopwatch.StartNew();
+
+            if (_db.Employees.Any())
+            {
+                _Logger.LogInformation("Инициализация БД с информацией о сотрудниках не требуется");
+                return;
+            }
+
+            await using (await _db.Database.BeginTransactionAsync())
+            {
+                _db.Employees.AddRange(TestData.Employees);
+
+                await _db.SaveChangesAsync();
+                await _db.Database.CommitTransactionAsync();
+            }
+            _Logger.LogInformation("Запись сотрудников выполнена успешно за {0} мс", timer.Elapsed.TotalMilliseconds);
         }
     }
 }

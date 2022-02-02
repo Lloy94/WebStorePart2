@@ -10,4 +10,8 @@
     <ProjectReference Include="..\WebStore.Interfaces\WebStore.Interfaces.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\InMemory\" />
+  </ItemGroup>
+
 </Project>

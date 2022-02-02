@@ -15,7 +15,7 @@ namespace WebStore.WebAPI.Clients.Employees
 
         public IEnumerable<Employee> GetAll()
         {
-            var employees = Get<IEnumerable<Employee>>(Address);
+            var employees = Get<IEnumerable<Employee>>(Address);//
             return employees;
         }
 

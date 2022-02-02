@@ -14,7 +14,6 @@ using WebStore.Interfaces.Services;
 using WebStore.Logger;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
-using WebStore.Services.Services.InMemory;
 using WebStore.Services.Services.InSQL;
 
 namespace WebStore.WebAPI
@@ -65,7 +64,7 @@ namespace WebStore.WebAPI
                 opt.SlidingExpiration = true;
             });
 
-            services.AddSingleton<IEmployeeData, InMemoryEmployeesData>();
+            services.AddScoped<IEmployeeData, SqlEmployeeData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
